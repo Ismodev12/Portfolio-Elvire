@@ -21,4 +21,4 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-Sitemap: https://fadegnon-elvire.dev/sitemap.xml
+Sitemap: https://elvire-fadegnon.netlify.app/sitemap.xml

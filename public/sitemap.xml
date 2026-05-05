@@ -3,21 +3,21 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <url>
-    <loc>https://fadegnon-elvire.dev/</loc>
+    <loc>https://elvire-fadegnon.netlify.app/</loc>
     <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
 
     <!-- Image hero — Elvire Fadegnon -->
     <image:image>
-      <image:loc>https://fadegnon-elvire.dev/elvire-fadegnon-portrait.png</image:loc>
+      <image:loc>https://elvire-fadegnon.netlify.app/elvire-fadegnon-portrait.png</image:loc>
       <image:caption>Elvire Fadegnon — Développeuse Full Stack Python et React</image:caption>
       <image:title>Elvire Fadegnon Portrait</image:title>
     </image:image>
 
     <!-- Image OG -->
     <image:image>
-      <image:loc>https://fadegnon-elvire.dev/og-elvire-fadegnon.png</image:loc>
+      <image:loc>https://elvire-fadegnon.netlify.app/og-elvire-fadegnon.png</image:loc>
       <image:caption>Portfolio Elvire Fadegnon</image:caption>
       <image:title>Elvire Fadegnon Portfolio Cover</image:title>
     </image:image>
