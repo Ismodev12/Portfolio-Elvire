@@ -26,15 +26,14 @@ function ServiceCard({ item, accent, tags, index, Icon, colors, isDark }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        position:'relative', overflow:'hidden', borderRadius:24,
+        position:'relative', overflow:'hidden', borderRadius:20,
         background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.88)',
         border:`1px solid ${hovered ? accent.from + '55' : colors.cardBorder}`,
         backdropFilter:'blur(12px)',
         boxShadow: hovered ? `0 20px 50px rgba(0,0,0,0.1), 0 0 0 1px ${accent.from}22` : '0 2px 10px rgba(0,0,0,0.05)',
         transition:'all 0.38s ease',
         transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
-        padding:'32px 28px',
-        minHeight:270,
+        padding:'24px 20px',
       }}
     >
       {/* Glow ambiant */}
@@ -45,16 +44,16 @@ function ServiceCard({ item, accent, tags, index, Icon, colors, isDark }) {
       {/* Barre colorée en haut au hover */}
       <div style={{ position:'absolute',top:0,left:0,right:0,height:3,
         background:`linear-gradient(90deg, ${accent.from}, ${accent.to})`,
-        borderRadius:'24px 24px 0 0',
+        borderRadius:'20px 20px 0 0',
         opacity: hovered ? 1 : 0, transition:'opacity 0.4s' }}/>
 
       {/* Contenu */}
       <div style={{ position:'relative',zIndex:1,height:'100%',display:'flex',flexDirection:'column' }}>
 
         {/* Icône */}
-        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:22 }}>
+        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:16 }}>
           <div style={{
-            width:56, height:56, borderRadius:16, flexShrink:0,
+            width:48, height:48, borderRadius:14, flexShrink:0,
             display:'flex', alignItems:'center', justifyContent:'center',
             background:`linear-gradient(135deg, ${accent.from}28, ${accent.to}14)`,
             border:`1.5px solid ${accent.from}38`,
@@ -63,40 +62,40 @@ function ServiceCard({ item, accent, tags, index, Icon, colors, isDark }) {
             transform: hovered ? 'scale(1.1) rotate(-5deg)' : 'scale(1) rotate(0deg)',
             color: accent.to,
           }}>
-            <Icon size={24}/>
+            <Icon size={22}/>
           </div>
           {/* Orbe déco */}
           <div style={{
-            width:70, height:70, borderRadius:'50%', flexShrink:0,
+            width:60, height:60, borderRadius:'50%', flexShrink:0,
             background:`radial-gradient(circle, ${accent.from}18 0%, transparent 70%)`,
-            filter:'blur(14px)', transform:'translate(16px,-16px)',
+            filter:'blur(14px)', transform:'translate(12px,-12px)',
             opacity: hovered ? 1 : 0.3, transition:'opacity 0.4s',
           }}/>
         </div>
 
         {/* Titre */}
-        <h3 style={{ fontFamily:'Outfit,sans-serif',fontWeight:700,fontSize:17,
-          color: colors.textPrimary, lineHeight:1.3, marginBottom:10, flex:'none' }}>
+        <h3 style={{ fontFamily:'Outfit,sans-serif',fontWeight:700,fontSize:'clamp(14px,2vw,16px)',
+          color: colors.textPrimary, lineHeight:1.3, marginBottom:8, flex:'none' }}>
           {item.title}
         </h3>
 
         {/* Description */}
-        <p style={{ fontFamily:'DM Sans,sans-serif',fontSize:15,lineHeight:1.78,
-          color: colors.textMuted, flex:1, marginBottom:20 }}>
+        <p style={{ fontFamily:'DM Sans,sans-serif',fontSize:'clamp(13px,1.8vw,14px)',lineHeight:1.7,
+          color: colors.textMuted, flex:1, marginBottom:16 }}>
           {item.desc}
         </p>
 
         {/* Séparateur */}
-        <div style={{ height:1, marginBottom:14,
+        <div style={{ height:1, marginBottom:12,
           background: isDark
             ? 'linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent)'
             : 'linear-gradient(90deg,transparent,rgba(0,0,0,0.07),transparent)' }}/>
 
         {/* Tags */}
-        <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+        <div style={{ display:'flex', gap:5, flexWrap:'wrap' }}>
           {tags.map(tag => (
-            <span key={tag} style={{ fontFamily:'DM Sans,sans-serif',fontSize:13,fontWeight:600,
-              padding:'3px 10px', borderRadius:99,
+            <span key={tag} style={{ fontFamily:'DM Sans,sans-serif',fontSize:'11px',fontWeight:600,
+              padding:'2px 8px', borderRadius:99,
               background:`${accent.from}12`, color: accent.to,
               border:`1px solid ${accent.from}28` }}>
               {tag}
@@ -135,13 +134,19 @@ export default function Services() {
             )}
           </motion.h2>
           <motion.p initial={{ opacity:0,y:12 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }} transition={{ delay:0.1 }}
-            style={{ fontFamily:'DM Sans,sans-serif',fontSize:16,color: colors.textMuted,maxWidth:480,margin:'0 auto',lineHeight:1.75 }}>
+            style={{ fontFamily:'DM Sans,sans-serif',fontSize:'clamp(14px,2vw,16px)',color: colors.textMuted,maxWidth:480,margin:'0 auto',lineHeight:1.75 }}>
             {t('services.subtitle')}
           </motion.p>
         </div>
 
-        {/* Grille 3×2 uniforme */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }}>
+        {/* Grille responsive : 1 col mobile → 2 col tablette → 3 col desktop */}
+        <div style={{
+          display:'grid',
+          gridTemplateColumns:'repeat(1,1fr)',
+          gap:16,
+        }}
+          className="services-grid"
+        >
           {items.map((item, i) => (
             <ServiceCard key={i} item={item} accent={ACCENT}
               tags={TAGS[i]} index={i} Icon={ICONS[i]}
@@ -149,6 +154,15 @@ export default function Services() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .services-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
+        }
+        @media (min-width: 1024px) {
+          .services-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
+        }
+      `}</style>
     </section>
   );
 }

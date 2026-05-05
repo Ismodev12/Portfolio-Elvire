@@ -19,9 +19,29 @@ export default function About() {
   return (
     <section id="apropos" aria-label="À propos d'Elvire Fadegnon" style={{ background: colors.bgSecondary, borderTop:`1px solid ${colors.secBorder}` }}>
       <div className="section">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* Left — Photo */}
+          {/* Photo mobile — visible uniquement sur mobile, en haut */}
+          <motion.div {...fn(0)} className="lg:hidden" style={{ textAlign:'center' }}>
+            <div style={{ position:'relative', display:'inline-block', maxWidth:320, width:'100%' }}>
+              <div style={{ position:'absolute',inset:0,borderRadius:28,
+                background: isDark ? 'linear-gradient(135deg,rgba(9,146,194,0.06) 0%,rgba(11,45,114,0.12) 100%)' : 'linear-gradient(135deg,rgba(9,146,194,0.05) 0%,rgba(9,146,194,0.1) 100%)',
+                border:`1px solid ${colors.cardBorder}` }}/>
+              <motion.img
+                src={elvirePic}
+                alt="Elvire Fadegnon — Photo professionnelle, développeuse Full Stack Python et React"
+                title="Elvire Fadegnon, développeuse Full Stack"
+                loading="lazy"
+                animate={{ y:[0,-8,0] }} transition={{ duration:7,repeat:Infinity,ease:'easeInOut' }}
+                style={{ position:'relative',zIndex:1,width:'100%',maxHeight:400,objectFit:'contain',objectPosition:'center',
+                  display:'block',margin:'0 auto',
+                  filter: isDark ? 'drop-shadow(0 20px 40px rgba(9,146,194,0.3))' : 'none',
+                }}
+                draggable={false}/>
+            </div>
+          </motion.div>
+
+          {/* Left — Photo desktop */}
           <motion.div {...fn(0)} className="relative hidden lg:block" style={{ alignSelf:'stretch' }}>
             <div style={{ position:'absolute',inset:0,borderRadius:28,
               background: isDark ? 'linear-gradient(135deg,rgba(9,146,194,0.06) 0%,rgba(11,45,114,0.12) 100%)' : 'linear-gradient(135deg,rgba(9,146,194,0.05) 0%,rgba(9,146,194,0.1) 100%)',
@@ -62,10 +82,10 @@ export default function About() {
               {t('about.title1')}<br/>
               <span className="text-grad">{t('about.title2')}</span>
             </motion.h2>
-            <motion.p {...fn(0.16)} style={{ fontFamily:'DM Sans,sans-serif',fontSize:'17px',lineHeight:1.85,color: colors.textMuted,marginBottom:'1.4rem' }}>
+            <motion.p {...fn(0.16)} style={{ fontFamily:'DM Sans,sans-serif',fontSize:'clamp(15px,2.5vw,17px)',lineHeight:1.85,color: colors.textMuted,marginBottom:'1.4rem' }}>
               {t('about.p1')}
             </motion.p>
-            <motion.p {...fn(0.2)} style={{ fontFamily:'DM Sans,sans-serif',fontSize:'17px',lineHeight:1.85,color: colors.textMuted,marginBottom:'2.5rem' }}>
+            <motion.p {...fn(0.2)} style={{ fontFamily:'DM Sans,sans-serif',fontSize:'clamp(15px,2.5vw,17px)',lineHeight:1.85,color: colors.textMuted,marginBottom:'2.5rem' }}>
               {t('about.p2')}
             </motion.p>
 
@@ -80,13 +100,13 @@ export default function About() {
                       background:'rgba(10,196,224,0.08)',border:'1px solid rgba(10,196,224,0.18)',color:'#0AC4E0' }}>
                       <Icon size={16}/>
                     </div>
-                    <span style={{ fontFamily:'DM Sans,sans-serif',fontSize:'16px',color: colors.textSecondary }}>{h}</span>
+                    <span style={{ fontFamily:'DM Sans,sans-serif',fontSize:'clamp(14px,2vw,16px)',color: colors.textSecondary }}>{h}</span>
                   </motion.li>
                 );
               })}
             </motion.ul>
 
-            <motion.div {...fn(0.45)} style={{ display:'flex',gap:14 }}>
+            <motion.div {...fn(0.45)} style={{ display:'flex',gap:14,flexWrap:'wrap' }}>
               <a href="#contact" className="btn-primary">{t('about.cta1')}</a>
               <a href="#projets" className="btn-ghost">{t('about.cta2')}</a>
             </motion.div>
