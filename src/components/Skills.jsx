@@ -2,6 +2,28 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 
+/* ── Tech logo imports ── */
+import imgPython     from '../assets/tech-logos/python.jpg';
+import imgDjango     from '../assets/tech-logos/django.webp';
+import imgFastapi    from '../assets/tech-logos/fastapi.webp';
+import imgFlask      from '../assets/tech-logos/flask.svg';
+import imgGraphql    from '../assets/tech-logos/graphql.png';
+import imgReact      from '../assets/tech-logos/react.png';
+import imgJs         from '../assets/tech-logos/javascript.svg';
+import imgTailwind   from '../assets/tech-logos/tailwind.png';
+import imgTs         from '../assets/tech-logos/typescript.png';
+import imgNextjs     from '../assets/tech-logos/nextjs.svg';
+import imgHtml       from '../assets/tech-logos/html5.png';
+import imgPostgres   from '../assets/tech-logos/postgresql.png';
+import imgMysql      from '../assets/tech-logos/mysql.svg';
+import imgRedis      from '../assets/tech-logos/redis.svg';
+import imgMongodb    from '../assets/tech-logos/mongodb.svg';
+import imgDocker     from '../assets/tech-logos/docker.png';
+import imgGithub     from '../assets/tech-logos/github.svg';
+import imgLinux      from '../assets/tech-logos/linux.png';
+import imgCicd       from '../assets/tech-logos/ci-cd.svg';
+import imgNginx      from '../assets/tech-logos/nginx.webp';
+
 const SKILL_DATA = {
   backend:  ['Python','Django','FastAPI','REST API','Flask','GraphQL'],
   frontend: ['React','JavaScript','Tailwind CSS','TypeScript','Next.js','HTML / CSS'],
@@ -9,26 +31,26 @@ const SKILL_DATA = {
   devops:   ['Docker','Git / GitHub','Linux','CI/CD','Nginx'],
 };
 const IMGS = {
-  'Python':      '/python.jpg',
-  'Django':      '/django.webp',
-  'FastAPI':     '/fast api.webp',
-  'Flask':       '/flask.svg',
-  'GraphQL':     '/GraphQL_Logo.svg.png',
-  'React':       '/React-icon.svg.png',
-  'JavaScript':  '/javascript-logo.svg',
-  'Tailwind CSS':'/Tailwind_CSS_Logo.svg.png',
-  'TypeScript':  '/Typescript_logo_2020.svg.png',
-  'Next.js':     '/next-js.svg',
-  'HTML / CSS':  '/HTML5_logo_and_wordmark.svg.png',
-  'PostgreSQL':  '/Postgresql_elephant.svg.png',
-  'MySQL':       '/mysql-logo.svg',
-  'Redis':       '/redis-logo.svg',
-  'MongoDB':     '/mongodb-icon-1.svg',
-  'Docker':      '/docker.png',
-  'Git / GitHub':'/github.svg',
-  'Linux':       '/linux.png',
-  'CI/CD':       '/ci-cd.svg',
-  'Nginx':       '/nginx-ifln2zy9rfx05a4ec36x.webp',
+  'Python':       imgPython,
+  'Django':       imgDjango,
+  'FastAPI':      imgFastapi,
+  'Flask':        imgFlask,
+  'GraphQL':      imgGraphql,
+  'React':        imgReact,
+  'JavaScript':   imgJs,
+  'Tailwind CSS': imgTailwind,
+  'TypeScript':   imgTs,
+  'Next.js':      imgNextjs,
+  'HTML / CSS':   imgHtml,
+  'PostgreSQL':   imgPostgres,
+  'MySQL':        imgMysql,
+  'Redis':        imgRedis,
+  'MongoDB':      imgMongodb,
+  'Docker':       imgDocker,
+  'Git / GitHub': imgGithub,
+  'Linux':        imgLinux,
+  'CI/CD':        imgCicd,
+  'Nginx':        imgNginx,
 };
 const ICONS = { 'REST API':'API' };
 

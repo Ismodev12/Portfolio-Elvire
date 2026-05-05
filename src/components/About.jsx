@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Coffee, Rocket, Users } from 'lucide-react';
-import elvirePic from '../assets/images/elvire_hero2.png';
+import elvirePic from '../assets/images/portrait/elvire-about.png';
 import { useApp } from '../context/AppContext';
 
 const ICONS = [MapPin, Coffee, Rocket, Users];

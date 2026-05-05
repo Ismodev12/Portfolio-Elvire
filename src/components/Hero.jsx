@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
-import elvirePic from '../assets/images/elvire_new.png';
+import elvirePic from '../assets/images/portrait/elvire-portrait.png';
 import { useApp } from '../context/AppContext';
 
 const anim = (delay = 0) => ({

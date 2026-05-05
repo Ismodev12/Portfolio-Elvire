@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import botIcon from '../assets/images/chatbot-icon.webp';
 
 /* ─── Portfolio knowledge base — system prompt ──────────────────── */
 const SYSTEM_PROMPT = `Tu es l'assistant virtuel de Fadegnon Elvire, développeuse Full Stack Python & React.
@@ -92,7 +93,7 @@ function MessageBubble({ msg, colors, isDark }) {
       {/* Avatar for assistant */}
       {!isUser && (
         <img
-          src="/chat-bot-stroke-standard-512.webp"
+          src={botIcon}
           alt="Assistant"
           style={{
             width: 28, height: 28, borderRadius: '50%', flexShrink: 0, objectFit: 'cover',
@@ -280,7 +281,7 @@ export default function Chatbot() {
             ) : (
               <motion.img
                 key="bot"
-                src="/chat-bot-stroke-standard-512.webp"
+                src={botIcon}
                 alt="Chatbot"
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -356,7 +357,7 @@ export default function Chatbot() {
             }}>
               <div style={{ position: 'relative' }}>
                 <img
-                  src="/chat-bot-stroke-standard-512.webp"
+                  src={botIcon}
                   alt="Assistant"
                   style={{
                     width: 42, height: 42, borderRadius: '50%', objectFit: 'cover',
@@ -416,7 +417,7 @@ export default function Chatbot() {
                   style={{ display: 'flex', alignItems: 'flex-end', gap: 8, marginBottom: 12 }}
                 >
                   <img
-                    src="/chat-bot-stroke-standard-512.webp" alt=""
+                    src={botIcon} alt=""
                     style={{
                       width: 28, height: 28, borderRadius: '50%', objectFit: 'cover',
                       background: 'linear-gradient(135deg,#0B2D72,#0AC4E0)',
@@ -549,3 +550,4 @@ export default function Chatbot() {
     </>
   );
 }
+
