@@ -58,7 +58,7 @@ function SkillCard({ name, colors, isDark }) {
   return (
     <motion.div initial={{opacity:0,scale:0.88}} animate={{opacity:1,scale:1}} exit={{opacity:0,scale:0.88}}
       transition={{duration:0.3}}
-      style={{ padding:'24px 16px',borderRadius:18,background: colors.cardBg,
+      style={{ width:'140px', flexShrink:0, padding:'24px 16px',borderRadius:18,background: colors.cardBg,
         border:`1px solid ${colors.cardBorder}`,display:'flex',flexDirection:'column',
         alignItems:'center',gap:14,cursor:'default',transition:'all 0.3s ease',position:'relative',overflow:'hidden' }}
       onMouseEnter={e => { e.currentTarget.style.background='rgba(9,146,194,0.08)'; e.currentTarget.style.borderColor='rgba(10,196,224,0.25)'; e.currentTarget.style.transform='translateY(-6px)'; e.currentTarget.style.boxShadow='0 20px 48px rgba(0,0,0,0.2)'; }}
@@ -112,7 +112,7 @@ export default function Skills() {
 
         <AnimatePresence mode="wait">
           <motion.div key={active} initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}} transition={{duration:0.28}}
-            style={{ display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))',gap:14 }}>
+            style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:14 }}>
             {SKILL_DATA[active].map(name => <SkillCard key={name} name={name} colors={colors} isDark={isDark}/>)}
           </motion.div>
         </AnimatePresence>
