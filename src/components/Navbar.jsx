@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
+      className="fixed top-0 left-0 right-0 z-[9999] transition-all duration-400"
       style={{
         padding: scrolled ? '10px 0' : '18px 0',
         background: navBg,
@@ -224,7 +224,7 @@ export default function Navbar() {
               transition={{ duration: 0.28 }}
               onClick={() => setOpen(false)}
               style={{
-                position: 'fixed', inset: 0, zIndex: 40,
+                position: 'fixed', inset: 0, zIndex: 9998,
                 background: 'rgba(0,0,0,0.55)',
                 backdropFilter: 'blur(3px)',
               }}
@@ -240,7 +240,7 @@ export default function Navbar() {
               style={{
                 position: 'fixed', top: 0, right: 0, bottom: 0,
                 width: 'min(300px, 85vw)',
-                zIndex: 50,
+                zIndex: 9999,
                 display: 'flex', flexDirection: 'column',
                 background: isDark ? 'rgba(6,15,30,0.98)' : 'rgba(248,250,252,0.98)',
                 backdropFilter: 'blur(24px)',
