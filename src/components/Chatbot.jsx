@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// Groq AI — API groq.com (OpenAI-compatible, no extra SDK needed)
 import botIcon from '../assets/images/chatbot-icon.webp';
 
 /* ─── Portfolio knowledge base — system prompt ──────────────────── */
@@ -138,7 +138,7 @@ export default function Chatbot() {
 
   const messagesEndRef = useRef(null);
   const inputRef       = useRef(null);
-  const apiKey         = import.meta.env.VITE_GEMINI_API_KEY;
+  const apiKey         = import.meta.env.VITE_GROK_API_KEY;
 
   /* Inject welcome message on first open */
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function Chatbot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 350);
   }, [open]);
 
-  /* ── Send message (SDK officiel @google/generative-ai) ─────────── */
+  /* ── Send message — Groq AI (groq.com, OpenAI-compatible) ───────── */
   async function sendMessage(text) {
     const userText = (text ?? input).trim();
     if (!userText || loading) return;
@@ -177,35 +177,46 @@ export default function Chatbot() {
     setMessages(updated);
     setLoading(true);
 
-    /* Construire l'historique SDK — exclure les messages assistant en tête
-       (message de bienvenue local) et le dernier message user (envoyé séparément) */
+    /* Construire le tableau de messages pour l'API Groq :
+       On garde les 12 derniers messages, en excluant les messages
+       assistant en tête (message de bienvenue local uniquement). */
     const rawHistory = updated.slice(-12);
     const firstUserIdx = rawHistory.findIndex(m => m.role === 'user');
-    const trimmedHistory = firstUserIdx >= 0 ? rawHistory.slice(firstUserIdx) : [];
+    const trimmedHistory = firstUserIdx >= 0 ? rawHistory.slice(firstUserIdx) : rawHistory;
 
-    /* L'historique SDK = tous les messages SAUF le dernier (qui est userText) */
-    const sdkHistory = trimmedHistory.slice(0, -1).map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
+    const apiMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...trimmedHistory.map(m => ({
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: m.content,
+      })),
+    ];
 
     try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const geminiModel = genAI.getGenerativeModel({
-        model: 'gemini-2.0-flash-lite',
-        systemInstruction: SYSTEM_PROMPT,
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: apiMessages,
+          max_tokens: 600,
+          temperature: 0.75,
+        }),
       });
 
-      const chat = geminiModel.startChat({
-        history: sdkHistory,
-        generationConfig: { maxOutputTokens: 600, temperature: 0.75 },
-      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error?.message ?? `HTTP ${response.status}`);
+      }
 
-      const result = await chat.sendMessage(userText);
-      const reply  = result.response.text()?.trim() ?? '…';
+      const data  = await response.json();
+      const reply = data.choices?.[0]?.message?.content?.trim() ?? '…';
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
     } catch (err) {
-      console.error('[Chatbot Gemini]', err);
+      console.error('[Chatbot Groq]', err);
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: '⚠️ Désolée, une erreur s\'est produite. Vérifiez la clé API ou réessayez dans quelques instants.',
@@ -233,8 +244,22 @@ export default function Chatbot() {
   /* ── Render ────────────────────────────────────────────────────── */
   return (
     <>
-      {/* ── Floating button ──────────────────────────────────────── */}
-      <div style={{ position: 'fixed', bottom: 28, right: 28, zIndex: 9999 }}>
+      {/* ── Media query styles pour le chatbot ───────────────── */}
+      <style>{`
+        @media (max-width: 480px) {
+          #chatbot-window {
+            right: 50% !important;
+            transform: translateX(50%) !important;
+            bottom: 90px !important;
+            width: calc(100vw - 24px) !important;
+            height: min(70vh, 520px) !important;
+            border-radius: 20px !important;
+          }
+        }
+      `}</style>
+
+      {/* ── Floating button ──────────────────────────────────── */}
+      <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999 }}>
         {/* Glow pulse when closed */}
         {!open && (
           <>
@@ -325,11 +350,14 @@ export default function Chatbot() {
             transition={{ type: 'spring', stiffness: 320, damping: 26 }}
             style={{
               position: 'fixed',
-              bottom: 104,
-              right: 28,
+              /* Desktop: coin bas-droit, décalé du bord */
+              bottom: 'clamp(96px, 12vh, 110px)',
+              right: 24,
               zIndex: 9998,
-              width: 'min(390px, calc(100vw - 40px))',
-              height: 'min(580px, calc(100vh - 150px))',
+              /* Largeur : max 360px, jamais plus de (100vw - 56px) */
+              width: 'min(360px, calc(100vw - 56px))',
+              /* Hauteur : max 480px, jamais plus de (100vh - 130px) */
+              height: 'min(480px, calc(100vh - 130px))',
               borderRadius: 24,
               display: 'flex',
               flexDirection: 'column',
@@ -383,7 +411,7 @@ export default function Chatbot() {
                   Assistant d'Elvire
                 </div>
                 <div style={{ fontSize: 12.5, color: '#22d3a5', fontFamily: 'DM Sans,sans-serif', fontWeight: 500, marginTop: 1 }}>
-                  En ligne · Propulsé par Gemini AI
+                  En ligne · Propulsé par Groq AI
                 </div>
               </div>
 
@@ -542,7 +570,7 @@ export default function Chatbot() {
               fontFamily: 'DM Sans,sans-serif', flexShrink: 0,
             }}>
               Propulsé par{' '}
-              <span style={{ color: '#0AC4E0', fontWeight: 600 }}>Gemini AI</span>
+              <span style={{ color: '#0AC4E0', fontWeight: 600 }}>Groq AI</span>
             </div>
           </motion.div>
         )}
